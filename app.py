@@ -87,7 +87,7 @@ def get_status_name(status_id):
     status_id_str = str(status_id)
     if status_id_str in status_choices:
         return status_choices[status_id_str][1] if len(status_choices[status_id_str]) > 1 else status_choices[status_id_str][0]
-    return "Desconhecido"
+    return f"Desconhecido (ID: {status_id_str})"
 
 @app.route('/', methods=['GET'])
 def health_check():
