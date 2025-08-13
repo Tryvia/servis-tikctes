@@ -64,30 +64,7 @@ def fetch_tickets_by_empresa(cf_empresa):
     
     return all_tickets
 
-status_choices = {
-    "10": ["Em análise", "Em análise"],
-    "11": ["Interno", "Interno"],
-    "2": ["Open", "Open"],
-    "7": ["Aguardando Cliente", "Aguardando Cliente"],
-    "4": ["Resolved", "Atribuído "],
-    "6": [" Em Homologação", "Em Homologação"],
-    "12": ["Aguardando publicar HML", "Aguardando publicar HML"],
-    "13": ["Aguardando publicar em PROD", "Aguardando publicar em PROD"],
-    "3": ["Pending", "Pendente"],
-    "5": ["Closed", "Fechado"],
-    "14": ["MVP", "MVP"],
-    "15": ["Validação-Atendimento", "Abertos"],
-    "16": ["Aguardando Parceiros", "Aguardando Parceiros"],
-    "17": ["Pausado", "Pausado"],
-    "18": ["Validação-CS", "Abertos"],
-    "8": ["Em tratativa", "Em tratativa"],
-}
 
-def get_status_name(status_id):
-    status_id_str = str(status_id)
-    if status_id_str in status_choices:
-        return status_choices[status_id_str][1] if len(status_choices[status_id_str]) > 1 else status_choices[status_id_str][0]
-    return f"Desconhecido (ID: {status_id_str})"
 
 @app.route('/', methods=['GET'])
 def health_check():
@@ -139,9 +116,7 @@ def get_tickets_by_cf_empresa():
         
         # Mapeia o status real para cada ticket
         for ticket in tickets:
-            status_id = ticket.get('status')
-            ticket['status_name'] = get_status_name(status_id)
-        
+            ticket["status_name"] = ticket.get("status_name", "Desconhecido")
         return jsonify(tickets)
         
     except Exception as e:
